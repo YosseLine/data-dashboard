@@ -105,6 +105,7 @@ function optionsMexico() {
 
 function showMain(region, promotion) {
   showTotalStudents(region, promotion);
+  showOverGoal(region, promotion);
 }
 
 function showTotalStudents(region, promotion) {
@@ -140,9 +141,55 @@ function showTotalStudents(region, promotion) {
   console.log("current "+current+" deserted "+deserted);
   drawTotalStudents(current, deserted);
 }
-// Obtener a quien elijo
-// LIM172 = data.LIM['2017-2'];
-// Pasar parametro para obtener ya datos estadisticos
+
+function showOverGoal(region, promotion) {
+  var meet = 0;
+  var fails = 0;
+
+  for (var regionData in data) {
+    if (regionData === region) {      
+      for (var promo in data [regionData]) {
+        if (promo === promotion) {
+          for (var students in data [regionData][promo]) {
+            if (students === 'students') {
+              for (var eachStudent in data [regionData][promo][students]) {
+                var active = data[regionData][promo][students][eachStudent]['active'];
+                if (active) {
+                  for (var score in data[regionData][promo][students][eachStudent]) {                    
+                    var sprint = data[regionData][promo][students][eachStudent]['sprints'];
+                    console.log(sprint);
+                  }
+
+                }
+              }
+            }
+          }  
+        }
+      }
+      
+    }
+  }
+  /*
+  for (var regionData in data) {
+    if (regionData === region) {      
+      for (var promo in data [regionData]) {
+        if (promo === promotion) {
+          for (var ratings in data [regionData][promo]) {
+            if (ratings === 'ratings') {
+              for (var eachRatings in data [regionData][promo][ratings]) {
+                var active = data[regionData][promo][ratings][eachRatings]['student'];
+                console.log(active);
+               // (active) ? current++ : deserted++;
+              }
+            }
+          }  
+        }
+      }
+      
+    }
+  }
+  */
+}
 
 /*************************GRAFICOS************/
 
