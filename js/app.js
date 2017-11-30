@@ -22,10 +22,12 @@ var cdmx171 = document.getElementById('cdmx171');
 var previous = divRegion;
 var numberBoxStudents = document.getElementById('number-box-students');
 var studentsDropout = document.getElementById('students-dropout');
-var cumulativeNps = document.getElementById('cumulative-nps');
-var promoters = document.getElementById('promoters');
-var passive = document.getElementById('passive');
-var detractors = document.getElementById('detractors');
+var cumulativeNpsBox = document.getElementById('cumulative-nps-box');
+var promotersBox = document.getElementById('promoters-box');
+var passiveBox = document.getElementById('passive-box');
+var detractorsBox = document.getElementById('detractors-box');
+var teacherRatingBox = document.getElementById('teacher-rating-box');
+
 var region;
 var promotion;
 var POINTMAX = 2100;
@@ -43,6 +45,7 @@ window.addEventListener('load', function() {
   region = lim172.dataset.region;
   promotion = lim172.dataset.promotion;
   showMain(region, promotion);
+  teacherRating(region, promotion);
 });
 
 function showAllRegions() {
@@ -61,6 +64,7 @@ function paintOptions(option, previous) {
 }
 function showMain(region, promotion) {
   showTotalStudents(region, promotion);
+
 }
 function optionsLima() {
   paintOptions(lima, previous);
@@ -76,6 +80,7 @@ function optionslim172() {
   showMain(region, promotion);
   showTotalStudents(region, promotion);
   // showOverGoal(region, promotion);
+  teacherRating(region, promotion);
 }
 
 function optionslim171() {
@@ -88,6 +93,7 @@ function optionslim171() {
   showMain(region, promotion);
   showTotalStudents(region, promotion);
   // showOverGoal(region, promotion);
+  teacherRating(region, promotion);
 }
 function optionslim162() {
   paintOptions(lim162, previous);
@@ -122,12 +128,26 @@ function showTotalStudents(region, promotion) {
     }
   }
   drawTotalStudents(current, deserted);
-  
+
   numberBoxStudents.textContent = current;
   numberBoxStudents.classList.toggle('number-box-int');
   studentsDropout.textContent = parseFloat(deserted/(current + deserted)*100).toFixed(0) + '%';
-  
-  
+}
+
+
+function teacherRating(region, promotion) {
+  var arrteacherRating = [];
+  var ratings = data[region][promotion]['ratings'];
+  var totalTeacherRating = 0;
+  for (var i = 0; i < ratings.length; i++) {
+    arrteacherRating[i] = ratings[i]['teacher'];
+    
+  }
+  for (var i = 0; i < arrteacherRating.length; i++) {
+    totalTeacherRating = totalTeacherRating + arrteacherRating[i];
+  }
+  totalTeacherRating = totalTeacherRating/arrteacherRating.length;
+  teacherRatingBox.textContent = totalTeacherRating;
 }
 /*
 function showOverGoal(region, promotion) {
@@ -138,7 +158,6 @@ function showOverGoal(region, promotion) {
   var scoresTotal;
   var count=0;
   var sprintTotal=[];
-
   for (var i = 0; i < students.length; i++) {
     if (students[i]['active']) {
       var sprint = students[i]['sprints'];
@@ -150,19 +169,16 @@ function showOverGoal(region, promotion) {
         if(scoresTotal>=2100) {
           sprintTotal[i][j]=scoresTotal;
           console.log("nsprint"+nsprint);
-          console.log(scoresTotal);  
+          console.log(scoresTotal);
           console.log("sprintTotal[i][j]"+sprintTotal[i][j]);
-        }      
+        }
       }
     }
-    
   }
   console.log(count);
 } */
 /* Función para */
-function cumulativeNps(region,promotion) {
-  
-}
+
 
 /*************************GRAFICOS************/
 function drawTotalStudents(current, deserted) {
